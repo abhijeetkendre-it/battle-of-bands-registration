@@ -1,19 +1,14 @@
 /**
  * GOOGLE APPS SCRIPT FOR BATTLE OF BANDS REGISTRATION
+ * (Dynamic Headers + Email Confirmation)
  * 
  * INSTRUCTIONS:
- * 1. Open the Google Sheet where you want to store registrations.
- * 2. Click Extensions > Apps Script in the top menu.
+ * 1. Open your Google Sheet.
+ * 2. Click Extensions > Apps Script.
  * 3. Replace all code in Code.gs with this script.
  * 4. Save the script (Ctrl+S).
- * 5. Click the "Deploy" button at the top right > "New deployment".
- * 6. Click the gear icon next to "Select type" and select "Web app".
- * 7. Configure:
- *    - Description: Battle of Bands Backend
- *    - Execute as: Me (your-email@gmail.com)
- *    - Who has access: Anyone
- * 8. Click "Deploy". Authorize permissions if prompted.
- * 9. Copy the "Web app URL" and paste it in config.js as GOOGLE_SHEET_WEBAPP_URL.
+ * 5. Change the function dropdown to "testEmail" and click "Run" to authorize permissions.
+ * 6. Click "Deploy" > "New deployment" > "Web app" (Execute as: Me, Access: Anyone).
  */
 
 function doPost(e) {
@@ -25,32 +20,38 @@ function doPost(e) {
     var activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = activeSpreadsheet.getSheetByName("Registrations") || activeSpreadsheet.getSheets()[0];
     
-    // Prepare values to write
-    var timestamp = new Date();
-    var emailAddress = data.email || "";
-    var fullName = data.fullName || "";
-    var mobile = data.mobile || "";
-    var college = data.college || "";
-    var deptBranchYear = data.deptBranchYear || "";
-    var joinedWhatsapp = data.joinedWhatsapp ? "Yes" : "No";
-    var referralSource = data.referralSource || "";
-    var copyRequested = data.sendCopy ? "Yes" : "No";
+    // Get header row to dynamically map column headers
+    var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+    var headerMap = {};
+    headers.forEach(function(header, index) {
+      headerMap[header.trim().toLowerCase()] = index + 1;
+    });
     
-    // Append row to Google Sheet
-    sheet.appendRow([
-      timestamp,       // Timestamp
-      emailAddress,    // Email address (Col B)
-      fullName,        // Full Name (Col C)
-      mobile,          // Mobile No. (Col D)
-      emailAddress,    // Email (Col E)
-      college,         // College Name (Col F)
-      deptBranchYear,  // Department / Branch / Year (Col G)
-      joinedWhatsapp,  // Join the Official Whatsapp Group Link (Col H)
-      referralSource,  // How did you hear about this event? (Col I)
-      copyRequested    // Copy Requested (Col J)
-    ]);
+    var nextRow = sheet.getLastRow() + 1;
     
-    // Attempt to send email
+    // Define mappings corresponding to Google Sheet headers
+    var mappings = [
+      { name: 'timestamp', val: new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }) },
+      { name: 'email address', val: data.email },
+      { name: 'full name', val: data.fullName },
+      { name: 'mobile no.', val: data.mobile },
+      { name: 'email', val: data.email },
+      { name: 'college name', val: data.college },
+      { name: 'department / branch / year', val: data.deptBranchYear },
+      { name: 'join the official whatsapp group link', val: data.joinedWhatsapp ? 'Yes' : 'No' },
+      { name: 'how did you hear about this event?', val: data.referralSource },
+      { name: 'copy requested', val: data.sendCopy ? 'Yes' : 'No' }
+    ];
+    
+    // Write values to dynamically matched columns
+    mappings.forEach(function(mapping) {
+      var colIndex = headerMap[mapping.name.toLowerCase()];
+      if (colIndex) {
+        sheet.getRange(nextRow, colIndex).setValue(mapping.val);
+      }
+    });
+    
+    // Send email
     var emailSent = false;
     var emailError = null;
     try {
@@ -164,5 +165,18 @@ function sendConfirmationEmail(data) {
     subject: subject,
     htmlBody: emailContent,
     name: senderName
+  });
+}
+
+function testEmail() {
+  sendConfirmationEmail({
+    email: "theabhijeetkendre@gmail.com",
+    fullName: "Abhijeet Kendre",
+    sendCopy: true,
+    mobile: "918605168653",
+    college: "MGM's College of Engineering",
+    deptBranchYear: "CSE / 4th Year",
+    joinedWhatsapp: true,
+    referralSource: "Social Media (Instagram/LinkedIn)"
   });
 }
