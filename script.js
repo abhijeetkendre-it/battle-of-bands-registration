@@ -14,6 +14,17 @@ document.addEventListener('DOMContentLoaded', () => {
   loadingOverlay.innerHTML = '<div class="spinner"></div>';
   document.body.appendChild(loadingOverlay);
 
+  // Dynamically update WhatsApp links from CONFIG if defined
+  if (typeof CONFIG !== 'undefined' && CONFIG.WHATSAPP_LINK) {
+    const whatsappLinks = document.querySelectorAll('a[href*="chat.whatsapp.com"]');
+    whatsappLinks.forEach(link => {
+      link.href = CONFIG.WHATSAPP_LINK;
+      if (link.classList.contains('whatsapp-link-text')) {
+        link.textContent = CONFIG.WHATSAPP_LINK;
+      }
+    });
+  }
+
   // Focus effect for question cards
   const cards = document.querySelectorAll('.question-card');
   cards.forEach(card => {
@@ -208,28 +219,25 @@ document.addEventListener('DOMContentLoaded', () => {
     loadingOverlay.classList.remove('hidden');
 
     try {
-      const response = await fetch('/api/register', {
+      if (typeof CONFIG === 'undefined' || !CONFIG.GOOGLE_SHEET_WEBAPP_URL) {
+        throw new Error('Google Sheets Apps Script URL is not configured in config.js.');
+      }
+
+      const response = await fetch(CONFIG.GOOGLE_SHEET_WEBAPP_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        // Omitting 'Content-Type': 'application/json' avoids CORS preflight OPTIONS request in Apps Script Web Apps
         body: JSON.stringify(payload)
       });
 
       const result = await response.json();
 
-      if (response.ok) {
+      if (result && result.success) {
         // Toggle view state
         formContainer.classList.add('hidden');
         successContainer.classList.remove('hidden');
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        
-        // Console check if mail server configured
-        if (result.emailStatus && !result.emailStatus.success) {
-          console.warn('Backend warning: Registration stored, but email failed to dispatch.', result.emailStatus.reason || result.emailStatus.error);
-        }
       } else {
-        alert(result.error || 'Something went wrong. Please try again.');
+        alert(result && result.error ? result.error : 'Registration failed. Please try again.');
       }
     } catch (err) {
       console.error('Submit Error:', err);
