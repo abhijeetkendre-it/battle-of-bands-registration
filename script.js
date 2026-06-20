@@ -25,6 +25,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const successTitle = document.querySelector('.success-title');
+  const footerMsg = document.querySelector('.footer-msg');
+
+  // Check if user already responded in localStorage
+  if (localStorage.getItem('battle_of_bands_registered') === 'true') {
+    formContainer.classList.add('hidden');
+    successContainer.classList.remove('hidden');
+    if (successTitle) {
+      successTitle.textContent = "You've already responded";
+    }
+    if (footerMsg) {
+      footerMsg.style.display = 'block';
+    }
+  }
+
   // Focus effect for question cards
   const cards = document.querySelectorAll('.question-card');
   cards.forEach(card => {
@@ -235,6 +250,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (result.emailSent === false) {
           console.warn('Registration saved, but confirmation email failed to send:', result.emailError);
         }
+        
+        // Save registration flag in localStorage
+        localStorage.setItem('battle_of_bands_registered', 'true');
+        
+        // Update header for first-time successful submit
+        if (successTitle) {
+          successTitle.textContent = "BATTLE OF BANDS - MUSIC NIGHT WITH LYRIA";
+        }
+        
         // Toggle view state
         formContainer.classList.add('hidden');
         successContainer.classList.remove('hidden');
