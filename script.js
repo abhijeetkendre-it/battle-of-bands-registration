@@ -232,6 +232,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await response.json();
 
       if (result && result.success) {
+        if (result.emailSent === false) {
+          console.warn('Registration saved, but confirmation email failed to send:', result.emailError);
+        }
         // Toggle view state
         formContainer.classList.add('hidden');
         successContainer.classList.remove('hidden');
