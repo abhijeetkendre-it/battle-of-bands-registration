@@ -47,9 +47,8 @@ body {
 
 .banner-img {
   width: 100%;
+  height: auto;
   display: block;
-  object-fit: cover;
-  max-height: 250px;
 }
 
 .info-card, .question-card, .success-container .info-card {
