@@ -160,9 +160,7 @@ function sendConfirmationEmail(data) {
     </div>
   `;
   
-  MailApp.sendEmail({
-    to: data.email,
-    subject: subject,
+  GmailApp.sendEmail(data.email, subject, "", {
     htmlBody: emailContent,
     name: senderName
   });
