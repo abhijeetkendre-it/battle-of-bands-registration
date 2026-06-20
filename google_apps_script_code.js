@@ -7,15 +7,33 @@
  * 2. Click Extensions > Apps Script.
  * 3. Replace all code in Code.gs with this script.
  * 4. Save the script (Ctrl+S).
- * 5. Change the function dropdown to "testEmail" and click "Run" to authorize permissions.
- * 6. Click "Deploy" > "New deployment" > "Web app" (Execute as: Me, Access: Anyone).
+ * 5. Run "testEmail" function first to grant Gmail + Sheets permissions.
+ * 6. Click "Deploy" > "Manage deployments" > Edit (pencil icon) > 
+ *    Change version to "New version" > Click "Deploy".
+ *    *** IMPORTANT: You must create a NEW VERSION every time you change the code ***
  */
 
 function doPost(e) {
   try {
-    // Parse the incoming JSON request
-    var data = JSON.parse(e.postData.contents);
-    
+    // Parse the incoming JSON request body
+    var rawBody = e.postData ? e.postData.contents : null;
+    if (!rawBody) {
+      return ContentService.createTextOutput(JSON.stringify({
+        success: false,
+        error: "No POST body received."
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+
+    var data = JSON.parse(rawBody);
+
+    // Validate email exists
+    if (!data.email) {
+      return ContentService.createTextOutput(JSON.stringify({
+        success: false,
+        error: "Email address is missing from submitted data."
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+
     // Get active sheet
     var activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = activeSpreadsheet.getSheetByName("Registrations") || activeSpreadsheet.getSheets()[0];
@@ -51,19 +69,21 @@ function doPost(e) {
       }
     });
     
-    // Send email
+    // ── Automatically send confirmation email ──
     var emailSent = false;
     var emailError = null;
     try {
       sendConfirmationEmail(data);
       emailSent = true;
     } catch (mailErr) {
+      // Capture exact error so client can see what went wrong
       emailError = mailErr.toString();
     }
     
     // Return success response to the client
     return ContentService.createTextOutput(JSON.stringify({ 
       success: true, 
+      registeredEmail: data.email,
       emailSent: emailSent,
       emailError: emailError 
     })).setMimeType(ContentService.MimeType.JSON);
@@ -75,6 +95,15 @@ function doPost(e) {
       error: error.toString() 
     })).setMimeType(ContentService.MimeType.JSON);
   }
+}
+
+// Health check - open your deployed Web App URL in a browser to confirm it is live
+function doGet(e) {
+  return ContentService.createTextOutput(JSON.stringify({
+    status: "OK",
+    message: "Battle of Bands Registration API is running.",
+    timestamp: new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+  })).setMimeType(ContentService.MimeType.JSON);
 }
 
 function sendConfirmationEmail(data) {
