@@ -82,8 +82,15 @@ function sendConfirmationEmail(data) {
   var whatsappLink = "https://chat.whatsapp.com/BTyHVmOoSBrKuplPGNDimx";
   var senderName = "Abhijeet Kendre (GSA)";
   
-  var emailContent = `
-    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; background-color: #fcfcfc;">
+  var emailContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin:0;padding:0;background-color:#f5f5f5;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 20px auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; background-color: #fcfcfc;">
       <div style="background-color: #e69d78; padding: 25px; text-align: center; color: white;">
         <h1 style="margin: 0; font-size: 24px; letter-spacing: 1px;">BATTLE OF BANDS</h1>
         <p style="margin: 5px 0 0 0; font-size: 14px; opacity: 0.9;">Registration Confirmation</p>
@@ -92,16 +99,16 @@ function sendConfirmationEmail(data) {
       <div style="padding: 25px; color: #333333; line-height: 1.6;">
         <p>Hi <strong>${data.fullName}</strong>,</p>
         
-        <p style="font-size: 16px;">🎉 <strong>Registration Successful!</strong></p>
+        <p style="font-size: 16px;"><strong>&#x2705; Registration Successful!</strong></p>
         <p>You have taken the first step toward leveling up your career with Gemini AI.</p>
         
         <div style="background-color: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0; border-radius: 4px;">
-          <h4 style="margin: 0 0 5px 0; color: #856404;">⚠️ CRITICAL NEXT STEP:</h4>
+          <h4 style="margin: 0 0 5px 0; color: #856404;">&#x26A0; CRITICAL NEXT STEP:</h4>
           <p style="margin: 0; font-size: 14px;">To receive the live Google Meet link, session updates, and resource materials, you <strong>MUST</strong> join our official WhatsApp Event Hub immediately.</p>
           <p style="margin: 10px 0 0 0;"><a href="${whatsappLink}" style="display: inline-block; background-color: #25d366; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 14px;">Join WhatsApp Group</a></p>
         </div>
         
-        <h3 style="border-bottom: 1px solid #e0e0e0; padding-bottom: 8px; color: #e69d78;">📅 Event Details</h3>
+        <h3 style="border-bottom: 1px solid #e0e0e0; padding-bottom: 8px; color: #e69d78;">&#x1F4C5; Event Details</h3>
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
           <tr>
             <td style="padding: 6px 0; font-weight: bold; width: 120px;">Event:</td>
@@ -124,7 +131,7 @@ function sendConfirmationEmail(data) {
 
   if (data.sendCopy) {
     emailContent += `
-        <h3 style="border-bottom: 1px solid #e0e0e0; padding-bottom: 8px; color: #e69d78;">📋 Your Submitted Details</h3>
+        <h3 style="border-bottom: 1px solid #e0e0e0; padding-bottom: 8px; color: #e69d78;">&#x1F4CB; Your Submitted Details</h3>
         <table style="width: 100%; border-collapse: collapse; font-size: 14px; background-color: #f9f9f9; border-radius: 4px;">
           <tr>
             <td style="padding: 8px 12px; border-bottom: 1px solid #eeeeee; font-weight: bold; width: 150px;">College Name:</td>
@@ -151,13 +158,15 @@ function sendConfirmationEmail(data) {
   }
 
   emailContent += `
-        <p style="margin-top: 30px;">See you inside the session! 🚀🤖</p>
+        <p style="margin-top: 30px;">See you inside the session! &#x1F680;</p>
         <p style="margin-bottom: 0;">Best regards,<br><strong>${senderName}</strong></p>
       </div>
       <div style="background-color: #f1f1f1; padding: 15px; text-align: center; font-size: 12px; color: #777777; border-top: 1px solid #e0e0e0;">
         This is an automated confirmation for your registration. If you did not register, please contact the host.
       </div>
     </div>
+</body>
+</html>
   `;
   
   GmailApp.sendEmail(data.email, subject, "", {
