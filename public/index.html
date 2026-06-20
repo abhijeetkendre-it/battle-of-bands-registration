@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BATTLE OF BANDS - MUSIC NIGHT WITH LYRIA</title>
+  <!-- Google Fonts for premium typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="main-wrapper">
+    <!-- Header Banner Image Card -->
+    <div class="banner-card">
+      <img src="banner.png" alt="Battle of Bands - Music Night with Lyria" class="banner-img">
+    </div>
+
+    <!-- Registration Form Container -->
+    <div id="form-container" class="form-container">
+      <!-- Title & Info Card -->
+      <div class="info-card">
+        <div class="card-top-accent"></div>
+        <h1 class="event-title">BATTLE OF BANDS - MUSIC NIGHT WITH LYRIA</h1>
+        
+        <div class="info-content">
+          <p class="welcome-text">Welcome to the registration for <strong>BATTLE OF BANDS - MUSIC NIGHT WITH LYRIA</strong>.</p>
+          
+          <div class="section-block">
+            <h2 class="section-title">📅 Session Details:</h2>
+            <ul class="info-list">
+              <li><strong>Date:</strong> To be announce</li>
+              <li><strong>Time:</strong> 7:00 PM IST</li>
+              <li><strong>Mode:</strong> Google Meet (Live Session)</li>
+            </ul>
+          </div>
+
+          <div class="section-block">
+            <h2 class="section-title">🎁 Perks & Benefits:</h2>
+            <ul class="info-list">
+              <li>Official Google Student Ambassador Program 2026 Certificate of Participation for active attendees.</li>
+              <li>National-level winning entries stand a chance to win exciting Google rewards!</li>
+            </ul>
+          </div>
+
+          <div class="section-block">
+            <h2 class="section-title">⚠️ Mandatory Guidelines:</h2>
+            <p class="guideline-text">To validate your certificate entry, you <strong>MUST</strong> attend the live Google Meet session with your camera turned ON. Please join using your registered email ID.</p>
+          </div>
+
+          <hr class="divider">
+
+          <div class="section-block">
+            <h2 class="section-title">👤 Event Host Details:</h2>
+            <ul class="info-list">
+              <li><strong>Lead Ambassador:</strong> Abhijeet Kendre</li>
+              <li><strong>GSA ID:</strong> 7259</li>
+              <li><strong>Campus:</strong> MGM's College of Engineering, Nanded</li>
+              <li><strong>Connect on LinkedIn:</strong> <a href="https://www.linkedin.com/in/abhijeetkendre/" target="_blank" class="accent-link">Link</a></li>
+            </ul>
+          </div>
+
+          <hr class="divider">
+          
+          <p class="whatsapp-note">Contact us via our official whatsapp group linked at the end of this form.</p>
+          <p class="required-indicator">* Indicates required question</p>
+        </div>
+      </div>
+
+      <!-- Registration Form -->
+      <form id="registration-form" novalidate>
+        
+        <!-- Email Input -->
+        <div class="question-card" id="card-email">
+          <label class="question-label" for="email">Email <span class="required">*</span></label>
+          <input type="email" id="email" name="email" placeholder="Your answer" class="text-input" required>
+          <span class="error-msg">This is a required question or invalid email.</span>
+        </div>
+
+        <!-- Full Name Input -->
+        <div class="question-card" id="card-fullName">
+          <label class="question-label" for="fullName">Full Name <span class="required">*</span></label>
+          <input type="text" id="fullName" name="fullName" placeholder="Your answer" class="text-input" required>
+          <span class="error-msg">This is a required question.</span>
+        </div>
+
+        <!-- Mobile No Input -->
+        <div class="question-card" id="card-mobile">
+          <label class="question-label" for="mobile">Mobile No. <span class="required">*</span></label>
+          <input type="tel" id="mobile" name="mobile" placeholder="Your answer" class="text-input" required>
+          <span class="error-msg">This is a required question.</span>
+        </div>
+
+        <!-- College Name Input -->
+        <div class="question-card" id="card-college">
+          <label class="question-label" for="college">College Name <span class="required">*</span></label>
+          <input type="text" id="college" name="college" placeholder="Your answer" class="text-input" required>
+          <span class="error-msg">This is a required question.</span>
+        </div>
+
+        <!-- Department / Branch / Year Input -->
+        <div class="question-card" id="card-deptBranchYear">
+          <label class="question-label" for="deptBranchYear">Department / Branch / Year <span class="required">*</span></label>
+          <input type="text" id="deptBranchYear" name="deptBranchYear" placeholder="Your answer" class="text-input" required>
+          <span class="error-msg">This is a required question.</span>
+        </div>
+
+        <!-- Join WhatsApp Group -->
+        <div class="question-card" id="card-joinedWhatsapp">
+          <label class="question-label">Join the Official Whatsapp Group <span class="required">*</span></label>
+          <p class="question-help"><a href="https://chat.whatsapp.com/BTyHVmOoSBrKuplPGNDimx" target="_blank" class="accent-link">Link</a></p>
+          <div class="checkbox-wrapper">
+            <input type="checkbox" id="joinedWhatsapp" name="joinedWhatsapp" required>
+            <label for="joinedWhatsapp" class="checkbox-label">Yes</label>
+          </div>
+          <span class="error-msg">You must join the group to complete registration.</span>
+        </div>
+
+        <!-- Referral Source Radio Selection -->
+        <div class="question-card" id="card-referralSource">
+          <label class="question-label">How did you hear about this event? <span class="required">*</span></label>
+          
+          <div class="radio-group">
+            <div class="radio-wrapper">
+              <input type="radio" id="ref-social" name="referralSource" value="Social Media (Instagram/LinkedIn)" required>
+              <label for="ref-social" class="radio-label">Social Media (Instagram/LinkedIn)</label>
+            </div>
+            
+            <div class="radio-wrapper">
+              <input type="radio" id="ref-poster" name="referralSource" value="College Notice Board/Poster">
+              <label for="ref-poster" class="radio-label">College Notice Board/Poster</label>
+            </div>
+            
+            <div class="radio-wrapper">
+              <input type="radio" id="ref-whatsapp" name="referralSource" value="WhatsApp Group/Forward">
+              <label for="ref-whatsapp" class="radio-label">WhatsApp Group/Forward</label>
+            </div>
+            
+            <div class="radio-wrapper">
+              <input type="radio" id="ref-friend" name="referralSource" value="Friend/Word of Mouth">
+              <label for="ref-friend" class="radio-label">Friend/Word of Mouth</label>
+            </div>
+            
+            <div class="radio-wrapper other-wrapper">
+              <input type="radio" id="ref-other" name="referralSource" value="Other">
+              <label for="ref-other" class="radio-label">Other:</label>
+              <input type="text" id="referralSourceOtherText" placeholder="Your answer" class="text-input other-text" disabled>
+            </div>
+          </div>
+          <span class="error-msg">This is a required question.</span>
+        </div>
+
+        <!-- Copy Send Toggle -->
+        <div class="question-card" id="card-sendCopy">
+          <label class="question-label">Response Copy Request</label>
+          <div class="checkbox-wrapper">
+            <input type="checkbox" id="sendCopy" name="sendCopy">
+            <label for="sendCopy" class="checkbox-label">Send me a copy of my responses</label>
+          </div>
+        </div>
+
+        <!-- Submit Controls -->
+        <div class="form-actions">
+          <button type="submit" id="submit-btn" class="submit-btn">Submit</button>
+          <button type="button" id="clear-btn" class="clear-btn">Clear form</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Success / Already Responded Container -->
+    <div id="success-container" class="success-container hidden">
+      <div class="info-card">
+        <div class="card-top-accent"></div>
+        <h1 class="success-title">You've already responded</h1>
+        
+        <div class="success-content">
+          <p class="success-alert">🎉 Registration Successful!</p>
+          <p>You have taken the first step toward leveling up your career with Gemini AI.</p>
+          
+          <div class="alert-box">
+            <h4 class="alert-title">🚨 CRITICAL NEXT STEP:</h4>
+            <p>To receive the live Google Meet link, session updates, and resource materials, you <strong>MUST</strong> join our official WhatsApp Event Hub immediately.</p>
+            <p class="whatsapp-cta">👉 Click here to join the group: <a href="https://chat.whatsapp.com/BTyHVmOoSBrKuplPGNDimx" target="_blank" class="accent-link whatsapp-link-text">https://chat.whatsapp.com/BTyHVmOoSBrKuplPGNDimx</a></p>
+          </div>
+
+          <div class="reminder-box">
+            <h4 class="reminder-title">📅 Reminder:</h4>
+            <ul class="reminder-list">
+              <li>• Date: To Be Announce</li>
+              <li>• Time: 7:00 PM IST</li>
+              <li>• Requirement: Keep your camera turned ON during the live session to qualify for your official Google Student Ambassador Certificate of Participation.</li>
+            </ul>
+          </div>
+
+          <p class="cheer-text">See you inside the session! 🚀🤖</p>
+          
+          <div class="footer-msg">
+            <p>You can only fill in this form once.</p>
+            <p>Try contacting the owner of the form if you think this is a mistake.</p>
+            <p class="edit-link-container"><a href="https://wa.me/918605168653?text=Hello%20Abhijeet,%20I%20need%20to%20edit%20my%20Battle%20of%20Bands%20registration%20response." target="_blank" id="edit-response-btn" class="accent-link edit-link">Edit your response (Send WhatsApp message to +91 8605168653)</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
