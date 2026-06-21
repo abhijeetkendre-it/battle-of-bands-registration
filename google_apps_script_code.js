@@ -50,15 +50,13 @@ function doPost(e) {
     // Define mappings corresponding to Google Sheet headers
     var mappings = [
       { name: 'timestamp', val: new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }) },
-      { name: 'email address', val: data.email },
       { name: 'full name', val: data.fullName },
+      { name: 'email address', val: data.email },
       { name: 'mobile no.', val: data.mobile },
-      { name: 'email', val: data.email },
       { name: 'college name', val: data.college },
       { name: 'department / branch / year', val: data.deptBranchYear },
       { name: 'join the official whatsapp group link', val: data.joinedWhatsapp ? 'Yes' : 'No' },
-      { name: 'how did you hear about this event?', val: data.referralSource },
-      { name: 'copy requested', val: data.sendCopy ? 'Yes' : 'No' }
+      { name: 'how did you hear about this event?', val: data.referralSource }
     ];
     
     // Write values to dynamically matched columns

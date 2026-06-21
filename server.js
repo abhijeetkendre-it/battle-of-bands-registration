@@ -30,15 +30,13 @@ async function initExcelFile() {
 
     worksheet.columns = [
       { header: 'Timestamp', key: 'timestamp', width: 22 },
-      { header: 'Email address', key: 'emailAddress', width: 25 },
       { header: 'Full Name', key: 'fullName', width: 20 },
+      { header: 'Email address', key: 'emailAddress', width: 25 },
       { header: 'Mobile No.', key: 'mobile', width: 15 },
-      { header: 'Email', key: 'emailSecond', width: 25 },
       { header: 'College Name', key: 'college', width: 30 },
       { header: 'Department / Branch / Year', key: 'deptBranchYear', width: 25 },
       { header: 'Join the Official Whatsapp Group Link', key: 'joinedWhatsapp', width: 35 },
-      { header: 'How did you hear about this event?', key: 'referralSource', width: 35 },
-      { header: 'Copy Requested', key: 'copyRequested', width: 15 }
+      { header: 'How did you hear about this event?', key: 'referralSource', width: 35 }
     ];
 
     // Style the header row
@@ -66,15 +64,13 @@ async function appendToExcel(data) {
 
   worksheet.addRow([
     timestamp,
-    data.email, // Email address (Col B)
-    data.fullName, // Full Name (Col C)
+    data.fullName, // Full Name (Col B)
+    data.email, // Email address (Col C)
     data.mobile, // Mobile No. (Col D)
-    data.email, // Email (Col E)
-    data.college, // College Name (Col F)
-    data.deptBranchYear, // Department / Branch / Year (Col G)
-    data.joinedWhatsapp ? 'Yes' : 'No', // Join the Official Whatsapp Group Link (Col H)
-    data.referralSource, // How did you hear about this event? (Col I)
-    data.sendCopy ? 'Yes' : 'No' // Copy Requested (Col J)
+    data.college, // College Name (Col E)
+    data.deptBranchYear, // Department / Branch / Year (Col F)
+    data.joinedWhatsapp ? 'Yes' : 'No', // Join the Official Whatsapp Group Link (Col G)
+    data.referralSource // How did you hear about this event? (Col H)
   ]);
 
   await workbook.xlsx.writeFile(excelFilePath);
