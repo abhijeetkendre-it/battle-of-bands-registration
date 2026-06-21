@@ -39,35 +39,51 @@ function doPost(e) {
     var sheet = activeSpreadsheet.getSheetByName("Registrations") || activeSpreadsheet.getSheets()[0];
     
     // Get header row to dynamically map column headers
-    var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+    var lastCol = sheet.getLastColumn();
+    if (lastCol < 1) lastCol = 1;
+    var headers = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
     var headerMap = {};
     headers.forEach(function(header, index) {
-      headerMap[header.trim().toLowerCase()] = index + 1;
+      if (header && header.toString().trim() !== "") {
+        headerMap[header.toString().trim().toLowerCase()] = index + 1;
+      }
     });
     
-    // Find the actual last row with data in column A (Timestamp) to avoid gaps
-    var colAValues = sheet.getRange("A:A").getValues();
-    var nextRow = 2; // Start after header row
-    for (var i = colAValues.length - 1; i >= 1; i--) {
-      if (colAValues[i][0] !== "" && colAValues[i][0] !== null) {
-        nextRow = i + 2; // i is 0-indexed, +1 for 1-indexed, +1 for next row
-        break;
-      }
-    }
+    // Find the actual last row with data across ALL columns
+    // Using getLastRow() which checks all columns, preventing row overwrites
+    var nextRow = sheet.getLastRow() + 1;
+    if (nextRow < 2) nextRow = 2; // Ensure we start after the header row
+    
+    // Generate timestamp
+    var timestampValue = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
     
     // Define mappings corresponding to Google Sheet headers
     var mappings = [
-      { name: 'timestamp', val: new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" }) },
-      { name: 'full name', val: data.fullName },
-      { name: 'email address', val: data.email },
-      { name: 'mobile no.', val: data.mobile },
-      { name: 'college name', val: data.college },
-      { name: 'department / branch / year', val: data.deptBranchYear },
+      { name: 'full name', val: data.fullName || "" },
+      { name: 'email address', val: data.email || "" },
+      { name: 'mobile no.', val: data.mobile || "" },
+      { name: 'college name', val: data.college || "" },
+      { name: 'department / branch / year', val: data.deptBranchYear || "" },
       { name: 'join the official whatsapp group link', val: data.joinedWhatsapp ? 'Yes' : 'No' },
-      { name: 'how did you hear about this event?', val: data.referralSource }
+      { name: 'how did you hear about this event?', val: data.referralSource || "" }
     ];
     
-    // Write values to dynamically matched columns
+    // Write timestamp to column A (handles multiple possible header names)
+    var timestampWritten = false;
+    var timestampAliases = ['timestamp', 'form_responses', 'form responses', 'responses'];
+    for (var t = 0; t < timestampAliases.length; t++) {
+      if (headerMap[timestampAliases[t]]) {
+        sheet.getRange(nextRow, headerMap[timestampAliases[t]]).setValue(timestampValue);
+        timestampWritten = true;
+        break;
+      }
+    }
+    // If no known header matched, always write timestamp to column 1 as fallback
+    if (!timestampWritten) {
+      sheet.getRange(nextRow, 1).setValue(timestampValue);
+    }
+    
+    // Write all other field values to their dynamically matched columns
     mappings.forEach(function(mapping) {
       var colIndex = headerMap[mapping.name.toLowerCase()];
       if (colIndex) {
