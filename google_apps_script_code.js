@@ -45,7 +45,15 @@ function doPost(e) {
       headerMap[header.trim().toLowerCase()] = index + 1;
     });
     
-    var nextRow = sheet.getLastRow() + 1;
+    // Find the actual last row with data in column A (Timestamp) to avoid gaps
+    var colAValues = sheet.getRange("A:A").getValues();
+    var nextRow = 2; // Start after header row
+    for (var i = colAValues.length - 1; i >= 1; i--) {
+      if (colAValues[i][0] !== "" && colAValues[i][0] !== null) {
+        nextRow = i + 2; // i is 0-indexed, +1 for 1-indexed, +1 for next row
+        break;
+      }
+    }
     
     // Define mappings corresponding to Google Sheet headers
     var mappings = [
